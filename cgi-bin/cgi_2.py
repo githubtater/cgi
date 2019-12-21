@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 import cgi
 import cgitb
-cgitb.enable()
 import os
 import datetime
+import socket
+
+cgitb.enable()
+
 
 
 default = "No Value Present"
@@ -12,6 +15,7 @@ default = "No Value Present"
 print("Content-Type: text/html")
 print("")
 
+today = datetime.date.today()
 body = """<html>
 <head>
 <title>Lab 1 - CGI experiments</title>
@@ -23,10 +27,10 @@ body = """<html>
 </body>
 </html>""".format(
     software=os.environ.get('SERVER_SOFTWARE', default),
-    script='aaaa',
-    month='bbbb',
-    date='cccc',
-    year='dddd',
-    client_ip='eeee'
+    script=os.path.realpath(__file__),
+    month=datetime.date.today().strftime('%B'),
+    date=today.day,
+    year=today.year,
+    client_ip=socket.gethostbyname(socket.gethostname())
 )
 print(body)
